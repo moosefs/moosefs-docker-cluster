@@ -1,9 +1,14 @@
 #!/bin/bash
 cp /etc/mfs/mfschunkserver.cfg.sample /etc/mfs/mfschunkserver.cfg
 
+echo "$2      mfsmaster" >> /etc/hosts
+
 mkdir -p /mnt/sdb1
 chmod -R 777 /mnt/sdb1
 echo "/mnt/sdb1 10GiB" >> /etc/mfs/mfshdd.cfg
+
+ifconfig eth0 | awk '/inet addr/{print substr($2,6)}'
+cat /etc/hosts
 
 sed -i '/# LABELS =/c\LABELS = DOCKER' /etc/mfs/mfschunkserver.cfg
 sed -i '/MFSCHUNKSERVER_ENABLE=false/c\MFSCHUNKSERVER_ENABLE=true' /etc/default/moosefs-chunkserver

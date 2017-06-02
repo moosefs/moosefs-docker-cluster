@@ -5,6 +5,7 @@ cp /etc/mfs/mfsexports.cfg.sample /etc/mfs/mfsexports.cfg
 # Add hostname to hosts
 ifconfig eth0 | awk '/inet addr/{printf substr($2,6)}' >> /etc/hosts
 echo "      mfsmaster" >> /etc/hosts
+ifconfig eth0 | awk '/inet addr/{print substr($2,6)}'
 
 mfsmaster start -a
 service moosefs-cgiserv start
