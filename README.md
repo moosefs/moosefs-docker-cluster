@@ -11,6 +11,8 @@ Cluster configuration:
 
 ## Setup
 
+Install Docker with composer from [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
+
 ```
 # Clone repository
 git clone https://github.com/karolmajek/docker-moosefs-cluster
