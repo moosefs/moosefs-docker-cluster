@@ -7,6 +7,15 @@ services:
     networks:
       mfsnet:
         ipv4_address: "172.20.0.2"
+  client:
+    build: ./moosefs-client
+    container_name: "client"
+    privileged: true
+    stdin_open: true
+    tty: true
+    networks:
+      mfsnet:
+        ipv4_address: "172.20.0.5"
   chunkserver1:
     build: ./moosefs-chunkserver
     container_name: "chunkserver1"

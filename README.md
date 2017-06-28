@@ -1,4 +1,5 @@
-# docker-moosefs-cluster
+# moosefs-docker-cluster
+
 Multiple node MooseFS cluster on Docker.
 
 Based on [Kai Sasaki's *Lewuathe/docker-hadoop-cluster*](https://github.com/Lewuathe/docker-hadoop-cluster)
@@ -15,8 +16,8 @@ Install Docker with composer from [https://docs.docker.com/compose/install/](htt
 
 ```
 # Clone repository
-git clone https://github.com/karolmajek/docker-moosefs-cluster
-cd docker-moosefs-cluster
+git clone https://github.com/moosefs/moosefs-docker-cluster
+cd moosefs-docker-cluster
 docker-compose up --build
 ```
 
@@ -28,6 +29,7 @@ docker ps
 Expected output should be similar to:
 ```
 CONTAINER ID        IMAGE                               COMMAND                  CREATED             STATUS              PORTS                     NAMES
+2fe620447b37        dockermoosefscluster_client         "/home/start-clien..."   5 minutes ago       Up 5 minutes                                  client
 1951d867c078        dockermoosefscluster_chunkserver5   "/home/start-chunk..."   5 minutes ago       Up 5 minutes        9419-9420/tcp, 9422/tcp   chunkserver5
 204c115cd8ad        dockermoosefscluster_chunkserver2   "/home/start-chunk..."   5 minutes ago       Up 5 minutes        9419-9420/tcp, 9422/tcp   chunkserver2
 48343721de4f        dockermoosefscluster_chunkserver4   "/home/start-chunk..."   5 minutes ago       Up 5 minutes        9419-9420/tcp, 9422/tcp   chunkserver4
@@ -38,9 +40,9 @@ c83c70580795        dockermoosefscluster_chunkserver3   "/home/start-chunk..."  
 
 # Change configuration
 
-If you want to change storage size you can modify chunkserver start script [moosefs-chunkserver/start-chunkserver.sh](https://github.com/karolmajek/docker-moosefs-cluster/blob/master/moosefs-chunkserver/start-chunkserver.sh)
+If you want to change storage size you can modify chunkserver start script [moosefs-chunkserver/start-chunkserver.sh](https://github.com/moosefs/moosefs-docker-cluster/blob/master/moosefs-chunkserver/start-chunkserver.sh)
 
-Containers configuration is stored in [docker-compose.yml](https://github.com/karolmajek/docker-moosefs-cluster/blob/master/docker-compose.yml)
+Containers configuration is stored in [docker-compose.yml](https://github.com/moosefs/moosefs-docker-cluster/blob/master/docker-compose.yml)
 ```
 version: '2'
 
@@ -95,5 +97,6 @@ networks:
 
 | Image name | Pulls | Stars | Build |
 |:-----|:-----|:-----|:-----|
-| [karolmajek/moosefs-master](https://hub.docker.com/r/karolmajek/moosefs-master/) | [![moosefs-master](https://img.shields.io/docker/pulls/karolmajek/moosefs-master.svg)](https://hub.docker.com/r/karolmajek/moosefs-master/) | ![moosefs-master](https://img.shields.io/docker/stars/karolmajek/moosefs-master.svg) | ![](https://img.shields.io/docker/build/karolmajek/moosefs-master.svg) |
-| [karolmajek/moosefs-chunkserver](https://hub.docker.com/r/karolmajek/moosefs-chunkserver/)  | [![moosefs-chunkserver](https://img.shields.io/docker/pulls/karolmajek/moosefs-chunkserver.svg)](https://hub.docker.com/r/karolmajek/moosefs-chunkserver/)    | ![moosefs-chunkserver](https://img.shields.io/docker/stars/karolmajek/moosefs-chunkserver.svg)  | ![](https://img.shields.io/docker/build/karolmajek/moosefs-chunkserver.svg) |
+| [moosefs/master](https://hub.docker.com/r/moosefs/master/) | [![master](https://img.shields.io/docker/pulls/moosefs/master.svg)](https://hub.docker.com/r/moosefs/master/) | ![master](https://img.shields.io/docker/stars/moosefs/master.svg) | ![](https://img.shields.io/docker/build/moosefs/master.svg) |
+| [moosefs/chunkserver](https://hub.docker.com/r/moosefs/chunkserver/)  | [![chunkserver](https://img.shields.io/docker/pulls/moosefs/chunkserver.svg)](https://hub.docker.com/r/moosefs/chunkserver/)    | ![chunkserver](https://img.shields.io/docker/stars/moosefs/chunkserver.svg)  | ![](https://img.shields.io/docker/build/moosefs/chunkserver.svg) |
+| [moosefs/client](https://hub.docker.com/r/moosefs/client/) | [![client](https://img.shields.io/docker/pulls/moosefs/client.svg)](https://hub.docker.com/r/moosefs/client/) | ![client](https://img.shields.io/docker/stars/moosefs/client.svg) | ![](https://img.shields.io/docker/build/moosefs/client.svg) |
