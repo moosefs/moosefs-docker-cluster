@@ -1,4 +1,4 @@
-# docker-moosefs-cluster
+# moosefs-docker-cluster
 Multiple node MooseFS cluster on Docker.
 
 Based on [Kai Sasaki's *Lewuathe/docker-hadoop-cluster*](https://github.com/Lewuathe/docker-hadoop-cluster)
@@ -15,8 +15,8 @@ Install Docker with composer from [https://docs.docker.com/compose/install/](htt
 
 ```
 # Clone repository
-git clone https://github.com/karolmajek/docker-moosefs-cluster
-cd docker-moosefs-cluster
+git clone https://github.com/moosefs/moosefs-docker-cluster
+cd moosefs-docker-cluster
 docker-compose up --build
 ```
 
@@ -38,9 +38,9 @@ c83c70580795        dockermoosefscluster_chunkserver3   "/home/start-chunk..."  
 
 # Change configuration
 
-If you want to change storage size you can modify chunkserver start script [moosefs-chunkserver/start-chunkserver.sh](https://github.com/karolmajek/docker-moosefs-cluster/blob/master/moosefs-chunkserver/start-chunkserver.sh)
+If you want to change storage size you can modify chunkserver start script [moosefs-chunkserver/start-chunkserver.sh](https://github.com/moosefs/moosefs-docker-cluster/blob/master/moosefs-chunkserver/start-chunkserver.sh)
 
-Containers configuration is stored in [docker-compose.yml](https://github.com/karolmajek/docker-moosefs-cluster/blob/master/docker-compose.yml)
+Containers configuration is stored in [docker-compose.yml](https://github.com/moosefs/moosefs-docker-cluster/blob/master/docker-compose.yml)
 ```
 version: '2'
 
