@@ -20,21 +20,27 @@ Based on [Kai Sasaki's *Lewuathe/docker-hadoop-cluster*](https://github.com/Lewu
 
 Install Docker with composer from [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
 
-```
-# Clone repository
-git clone https://github.com/moosefs/moosefs-docker-cluster
+Clone MooseFS docker config files:
 
+```
+git clone https://github.com/moosefs/moosefs-docker-cluster
+```
+
+Start MooseFS servers:
+```
 cd moosefs-docker-cluster
 
-docker-compose up
+docker-compose up -d
 ```
 
-Check if instances are running:
+"-d" is for running Docker nodes in background, so Docker console outpub is invisible.
+
+Check if instances are running with:
 
 ```
 docker ps
 ```
-Expected output should be similar to:
+You should have 1 master, 5 chunkservers and 1 client running. Expected output should be similar to:
 ```
 CONTAINER ID        IMAGE                               COMMAND                  CREATED             STATUS              PORTS                     NAMES
 2fe620447b37        dockermoosefscluster_client         "/home/start-clien..."   5 minutes ago       Up 5 minutes                                  client
@@ -46,10 +52,17 @@ CONTAINER ID        IMAGE                               COMMAND                 
 c83c70580795        dockermoosefscluster_chunkserver3   "/home/start-chunk..."   5 minutes ago       Up 5 minutes        9419-9420/tcp, 9422/tcp   chunkserver3
 ```
 
-Connect to client node:
+You can attach to the client node (remember about double press "Enter" key):
 
 ```
-docker container attach client
+docker container attach client  #press the "Enter" key twice
+```
+
+Now MooseFS filesystem is mounted as `/mnt/mfs`. If everything is ok you should see our welcome message with:
+```
+cd /mnt/mfs
+
+cat welcome_to_moosefs.txt
 ```
 
 # Change configuration
