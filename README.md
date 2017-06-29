@@ -14,7 +14,7 @@ Based on [Kai Sasaki's *Lewuathe/docker-hadoop-cluster*](https://github.com/Lewu
 - chunkserver5 **172.20.0.15** with **10 GiB** of storage
 - client **172.168.20.0.5**
 
-![MooseFS CGI](images/cgi.png)
+![MooseFS CGI](https://github.com/moosefs/moosefs-docker-cluster/blob/master/images/cgi.png)
 
 ## Setup
 
