@@ -8,7 +8,7 @@ Cluster configuration:
 - master with CGI [http://172.20.0.2:9425](http://172.20.0.2:9425)
 - 5 chunkservers **172.20.0.11-15** with **10 GiB** of storage each
 
-![MooseFS CGI](images/cgi.png)
+![MooseFS CGI](https://github.com/moosefs/moosefs-docker-cluster/blob/master/images/cgi.png)
 
 ## Setup
 
