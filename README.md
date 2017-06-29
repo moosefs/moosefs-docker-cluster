@@ -26,7 +26,7 @@ git clone https://github.com/moosefs/moosefs-docker-cluster
 
 cd moosefs-docker-cluster
 
-docker-compose up --build
+docker-compose up
 ```
 
 Check if instances are running:

@@ -11,6 +11,8 @@ services:
     image: moosefs/client
     container_name: "client"
     privileged: true
+    stdin_open: true
+    tty: true
     networks:
       mfsnet:
         ipv4_address: "172.20.0.5"
