@@ -4,14 +4,14 @@ services:
   master:
     image: moosefs/master  #use GitHub version
     #build: ./moosefs-master  #use local version
-    container_name: "master"
+    container_name: "mfs_master"
     networks:
       mfsnet:
         ipv4_address: "172.20.0.2"
   client:
     image: moosefs/client  #use GitHub version
     #build: ./moosefs-client  #use local version
-    container_name: "client"
+    container_name: "mfs_client"
     privileged: true
     stdin_open: true
     tty: true
@@ -21,35 +21,35 @@ services:
   chunkserver1:
     image: moosefs/chunkserver  #use GitHub version
     #build: ./moosefs-chunkserver  #use local version
-    container_name: "chunkserver1"
+    container_name: "mfs_chunkserver1"
     networks:
       mfsnet:
         ipv4_address: "172.20.0.11"
   chunkserver2:
     image: moosefs/chunkserver  #use GitHub version
     #build: ./moosefs-chunkserver  #use local version
-    container_name: "chunkserver2"
+    container_name: "mfs_chunkserver2"
     networks:
       mfsnet:
         ipv4_address: "172.20.0.12"
   chunkserver3:
     image: moosefs/chunkserver  #use GitHub version
     #build: ./moosefs-chunkserver  #use local version
-    container_name: "chunkserver3"
+    container_name: "mfs_chunkserver3"
     networks:
       mfsnet:
         ipv4_address: "172.20.0.13"
   chunkserver4:
     image: moosefs/chunkserver  #use GitHub version
     #build: ./moosefs-chunkserver  #use local version
-    container_name: "chunkserver4"
+    container_name: "mfs_chunkserver4"
     networks:
       mfsnet:
         ipv4_address: "172.20.0.14"
   chunkserver5:
     image: moosefs/chunkserver  #use GitHub version
     #build: ./moosefs-chunkserver  #use local version
-    container_name: "chunkserver5"
+    container_name: "mfs_chunkserver5"
     networks:
       mfsnet:
         ipv4_address: "172.20.0.15"

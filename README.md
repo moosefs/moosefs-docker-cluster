@@ -31,7 +31,7 @@ cd moosefs-docker-cluster
 docker-compose up -d
 ```
 
-"-d" is for running Docker nodes in background, so Docker console outpub is invisible.
+"-d" is for running Docker nodes in background, so Docker console output is invisible.
 
 Check if instances are running with:
 
