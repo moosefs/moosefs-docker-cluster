@@ -57,55 +57,6 @@ docker container attach client
 If you want to change storage size you can modify chunkserver start script [moosefs-chunkserver/start-chunkserver.sh](https://github.com/moosefs/moosefs-docker-cluster/blob/master/moosefs-chunkserver/start-chunkserver.sh)
 
 Containers configuration is stored in [docker-compose.yml](https://github.com/moosefs/moosefs-docker-cluster/blob/master/docker-compose.yml)
-```
-version: '2'
-
-services:
-  master:
-    build: ./moosefs-master
-    container_name: "master"
-    networks:
-      mfsnet:
-        ipv4_address: "172.20.0.2"
-  chunkserver1:
-    build: ./moosefs-chunkserver
-    container_name: "chunkserver1"
-    networks:
-      mfsnet:
-        ipv4_address: "172.20.0.11"
-  chunkserver2:
-    build: ./moosefs-chunkserver
-    container_name: "chunkserver2"
-    networks:
-      mfsnet:
-        ipv4_address: "172.20.0.12"
-  chunkserver3:
-    build: ./moosefs-chunkserver
-    container_name: "chunkserver3"
-    networks:
-      mfsnet:
-        ipv4_address: "172.20.0.13"
-  chunkserver4:
-    build: ./moosefs-chunkserver
-    container_name: "chunkserver4"
-    networks:
-      mfsnet:
-        ipv4_address: "172.20.0.14"
-  chunkserver5:
-    build: ./moosefs-chunkserver
-    container_name: "chunkserver5"
-    networks:
-      mfsnet:
-        ipv4_address: "172.20.0.15"
-networks:
-  mfsnet:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 172.20.0.0/16
-         gateway: 172.20.0.1
-
-```
 
 # Docker Hub
 
