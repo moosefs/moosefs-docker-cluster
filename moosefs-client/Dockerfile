@@ -14,4 +14,5 @@ RUN apt-get update && apt-get install -y moosefs-client
 ADD start-client.sh /home/start-client.sh
 RUN chown root:root /home/start-client.sh
 RUN chmod 700 /home/start-client.sh
-CMD ["/home/start-client.sh", "-bash", "172.20.0.2"]
+
+CMD ["/home/start-client.sh", "-d", "172.20.0.2"]

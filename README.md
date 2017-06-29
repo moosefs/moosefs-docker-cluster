@@ -1,12 +1,18 @@
 # moosefs-docker-cluster
 
-Multiple node MooseFS cluster on Docker.
+Multiple node MooseFS cluster on Docker. Master with CGI, 5 chunkservers and client node.
 
 Based on [Kai Sasaki's *Lewuathe/docker-hadoop-cluster*](https://github.com/Lewuathe/docker-hadoop-cluster)
 
-Cluster configuration:
+## Cluster configuration
+
 - master with CGI [http://172.20.0.2:9425](http://172.20.0.2:9425)
-- 5 chunkservers **172.20.0.11-15** with **10 GiB** of storage each
+- chunkserver1 **172.20.0.11** with **10 GiB** of storage
+- chunkserver2 **172.20.0.12** with **10 GiB** of storage
+- chunkserver3 **172.20.0.13** with **10 GiB** of storage
+- chunkserver4 **172.20.0.14** with **10 GiB** of storage
+- chunkserver5 **172.20.0.15** with **10 GiB** of storage
+- client **172.168.20.0.5**
 
 ![MooseFS CGI](images/cgi.png)
 
@@ -17,7 +23,9 @@ Install Docker with composer from [https://docs.docker.com/compose/install/](htt
 ```
 # Clone repository
 git clone https://github.com/moosefs/moosefs-docker-cluster
+
 cd moosefs-docker-cluster
+
 docker-compose up --build
 ```
 
@@ -36,6 +44,12 @@ CONTAINER ID        IMAGE                               COMMAND                 
 30ca217fa862        dockermoosefscluster_master         "/home/start.sh -d"      5 minutes ago       Up 5 minutes        9420-9425/tcp             master
 28e2a64d0fb9        dockermoosefscluster_chunkserver1   "/home/start-chunk..."   5 minutes ago       Up 5 minutes        9419-9420/tcp, 9422/tcp   chunkserver1
 c83c70580795        dockermoosefscluster_chunkserver3   "/home/start-chunk..."   5 minutes ago       Up 5 minutes        9419-9420/tcp, 9422/tcp   chunkserver3
+```
+
+Connect to client node:
+
+```
+docker container attach client
 ```
 
 # Change configuration
