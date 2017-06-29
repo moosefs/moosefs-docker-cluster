@@ -12,10 +12,10 @@ mkdir -p /mnt/mfs
 mfsmount /mnt/mfs -H mfsmaster
 
 # create example file to MooseFS
-echo "If you can find this file in /mnt/mfs/SUCCESS on your client instance it means MooseFS is working correctly, congratulations!" > /mnt/mfs/SUCCESS
+echo "If you can find this file in /mnt/mfs/SUCCESS on your client instance it means MooseFS is working correctly, congratulations!" > /mnt/mfs/welcome_to_moosefs.txt
 
 # list files in MooseFS
-ls /mnt/mfs/SUCCESS -la
+ls /mnt/mfs/
 
 if [[ $1 == "-d" ]]; then
     while true; do sleep 1000; done
