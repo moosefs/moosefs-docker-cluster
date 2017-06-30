@@ -1,8 +1,6 @@
 #!/bin/bash
 cp /etc/mfs/mfschunkserver.cfg.sample /etc/mfs/mfschunkserver.cfg
 
-echo "$2      mfsmaster" >> /etc/hosts
-
 mkdir -p /mnt/sdb1
 chmod -R 777 /mnt/sdb1
 echo "/mnt/sdb1 10GiB" >> /etc/mfs/mfshdd.cfg

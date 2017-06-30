@@ -17,4 +17,5 @@ EXPOSE 9419 9420 9422
 ADD start-chunkserver.sh /home/start-chunkserver.sh
 RUN chown root:root /home/start-chunkserver.sh
 RUN chmod 700 /home/start-chunkserver.sh
-CMD ["/home/start-chunkserver.sh", "-d", "172.20.0.2"]
+
+CMD ["/home/start-chunkserver.sh", "-d"]

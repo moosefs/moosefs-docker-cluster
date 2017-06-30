@@ -4,7 +4,9 @@ Multiple node MooseFS cluster on Docker. Master with CGI, 5 chunkservers and cli
 
 Based on [Kai Sasaki's *Lewuathe/docker-hadoop-cluster*](https://github.com/Lewuathe/docker-hadoop-cluster)
 
-## Cluster configuration
+## Cluster configurations
+
+**File docker-compose.yml**
 
 - master with CGI [http://172.20.0.2:9425](http://172.20.0.2:9425)
 - chunkserver1 **172.20.0.11** with **10 GiB** of storage
@@ -13,6 +15,15 @@ Based on [Kai Sasaki's *Lewuathe/docker-hadoop-cluster*](https://github.com/Lewu
 - chunkserver4 **172.20.0.14** with **10 GiB** of storage
 - chunkserver5 **172.20.0.15** with **10 GiB** of storage
 - client **172.168.20.0.5**
+
+**File docker-compose-chunkserver-client.yml**
+
+- master with CGI [http://172.20.0.2:9425](http://172.20.0.2:9425)
+- chunkserver1 **172.20.0.11** with **10 GiB** of storage and client (mount point: `/mnt/mfs`)
+- chunkserver2 **172.20.0.12** with **10 GiB** of storage and client (mount point: `/mnt/mfs`)
+- chunkserver3 **172.20.0.13** with **10 GiB** of storage and client (mount point: `/mnt/mfs`)
+- chunkserver4 **172.20.0.14** with **10 GiB** of storage and client (mount point: `/mnt/mfs`)
+- chunkserver5 **172.20.0.15** with **10 GiB** of storage and client (mount point: `/mnt/mfs`)
 
 ![MooseFS CGI](https://github.com/moosefs/moosefs-docker-cluster/blob/master/images/cgi.png)
 
@@ -27,9 +38,17 @@ git clone https://github.com/moosefs/moosefs-docker-cluster
 ```
 
 ### Start MooseFS cluster:
+
+Go to repo directory:
+
 ```
 cd moosefs-docker-cluster
+```
 
+Build and run in background:
+
+```
+docker-compose build
 docker-compose up -d
 ```
 
@@ -55,7 +74,7 @@ c83c70580795        dockermoosefscluster_chunkserver3   "/home/start-chunk..."  
 You can attach to the client node (remember about double press "Enter" key):
 
 ```
-docker container attach client  #press the "Enter" key twice
+docker container attach mfsclient  #press the "Enter" key twice
 ```
 
 Now MooseFS filesystem is mounted as `/mnt/mfs`. If everything is ok you should see our welcome message with:
@@ -64,6 +83,17 @@ cd /mnt/mfs
 
 cat welcome_to_moosefs.txt
 ```
+
+**Other configurations**
+
+If you want to use other than default compose yml file (`docker-compose.yml`) use following commands:
+
+```
+docker-compose -f docker-compose-chunkserver-client.yml build
+docker-compose -f docker-compose-chunkserver-client.yml up -d
+```
+
+When using `docker-compose-chunkserver-client.yml` you will have 5 chunkserver/client machines so you can  attach to mfschunkserverclient1, ...,  mfschunkserverclient5
 
 ### Stop the cluster
 
