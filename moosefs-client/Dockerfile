@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 
 # Install wget, lsb-release and curl
-RUN apt-get update && apt-get install -y wget lsb-release curl fuse libfuse2
+RUN apt-get update && apt-get install -y wget lsb-release curl fuse libfuse2 tree
 
 # Add key
 RUN wget -O - http://ppa.moosefs.com/moosefs.key | apt-key add -

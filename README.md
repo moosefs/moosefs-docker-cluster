@@ -26,7 +26,7 @@ Clone MooseFS docker config files:
 git clone https://github.com/moosefs/moosefs-docker-cluster
 ```
 
-Start MooseFS servers:
+### Start MooseFS cluster:
 ```
 cd moosefs-docker-cluster
 
@@ -64,6 +64,16 @@ cd /mnt/mfs
 
 cat welcome_to_moosefs.txt
 ```
+
+### Stop the cluster
+
+`docker-compose stop`
+
+### Restart the stopped cluster
+`docker-compose start`
+
+### Remove containers
+`docker-compose rm -f`
 
 # Change configuration
 
