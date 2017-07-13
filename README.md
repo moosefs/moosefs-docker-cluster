@@ -23,7 +23,7 @@ This is a sample configuration of a multiple node MooseFS cluster on Docker usin
 - chunkserver4 **172.20.0.14** with **10 GiB** of storage and client (mount point: `/mnt/mfs`)
 - chunkserver5 **172.20.0.15** with **10 GiB** of storage and client (mount point: `/mnt/mfs`)
 
-![MooseFS CGI](https://github.com/moosefs/moosefs-docker-cluster/blob/master/images/cgi.png)
+![MooseFS CGI](https://github.com/moosefs/moosefs-docker-cluster/raw/master/images/cgi.png)
 
 ## Setup
 
