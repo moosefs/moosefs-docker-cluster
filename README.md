@@ -1,4 +1,4 @@
-# moosefs-docker-cluster
+# MooseFS Docker Cluster
 
 This is a sample configuration of a multiple node MooseFS cluster on Docker using Ubuntu 14.04 LTS. It consists of a master server with a management GUI, 5 chunkservers and one client machine. After a successful installation you have a fully working MooseFS cluster to play with its amazing features.
 
