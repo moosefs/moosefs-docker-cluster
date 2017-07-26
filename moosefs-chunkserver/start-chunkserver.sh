@@ -2,7 +2,7 @@
 cp /etc/mfs/mfschunkserver.cfg.sample /etc/mfs/mfschunkserver.cfg
 
 mkdir -p /mnt/sdb1
-chmod -R 777 /mnt/sdb1
+chown -R mfs:mfs /mnt/sdb1
 echo "/mnt/sdb1 10GiB" >> /etc/mfs/mfshdd.cfg
 
 ifconfig eth0 | awk '/inet addr/{print substr($2,6)}'
