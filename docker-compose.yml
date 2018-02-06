@@ -11,7 +11,15 @@ services:
     image: moosefs/client  #use GitHub version
     #build: ./moosefs-client  #use local version
     container_name: "mfsclient"
-    privileged: true
+    cap_add:
+      # Needed for mount.
+      - SYS_ADMIN
+    devices:
+      # Needed for mount.
+      - /dev/fuse:/dev/fuse
+    security_opt:
+      # Needed for mount.
+      - apparmor:unconfined
     stdin_open: true
     tty: true
     links:

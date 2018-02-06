@@ -12,7 +12,15 @@ services:
     # build: ./moosefs-chunkserver-client
     container_name: "mfschunkserverclient1"
     hostname: mfschunkserverclient1
-    privileged: true
+    cap_add:
+      # Needed for mount.
+      - SYS_ADMIN
+    devices:
+      # Needed for mount.
+      - /dev/fuse:/dev/fuse
+    security_opt:
+      # Needed for mount.
+      - apparmor:unconfined
     stdin_open: true
     tty: true
     links:
@@ -25,7 +33,15 @@ services:
     # build: ./moosefs-chunkserver-client
     container_name: "mfschunkserverclient2"
     hostname: mfschunkserverclient2
-    privileged: true
+    cap_add:
+      # Needed for mount.
+      - SYS_ADMIN
+    devices:
+      # Needed for mount.
+      - /dev/fuse:/dev/fuse
+    security_opt:
+      # Needed for mount.
+      - apparmor:unconfined
     stdin_open: true
     tty: true
     links:
@@ -38,7 +54,15 @@ services:
     # build: ./moosefs-chunkserver-client
     container_name: "mfschunkserverclient3"
     hostname: mfschunkserverclient3
-    privileged: true
+    cap_add:
+      # Needed for mount.
+      - SYS_ADMIN
+    devices:
+      # Needed for mount.
+      - /dev/fuse:/dev/fuse
+    security_opt:
+      # Needed for mount.
+      - apparmor:unconfined
     stdin_open: true
     tty: true
     links:
@@ -51,7 +75,15 @@ services:
     # build: ./moosefs-chunkserver-client
     container_name: "mfschunkserverclient4"
     hostname: mfschunkserverclient4
-    privileged: true
+    cap_add:
+      # Needed for mount.
+      - SYS_ADMIN
+    devices:
+      # Needed for mount.
+      - /dev/fuse:/dev/fuse
+    security_opt:
+      # Needed for mount.
+      - apparmor:unconfined
     stdin_open: true
     tty: true
     links:
@@ -64,7 +96,15 @@ services:
     # build: ./moosefs-chunkserver-client
     container_name: "mfschunkserverclient5"
     hostname: mfschunkserverclient5
-    privileged: true
+    cap_add:
+      # Needed for mount.
+      - SYS_ADMIN
+    devices:
+      # Needed for mount.
+      - /dev/fuse:/dev/fuse
+    security_opt:
+      # Needed for mount.
+      - apparmor:unconfined
     stdin_open: true
     tty: true
     links:
