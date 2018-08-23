@@ -1,0 +1,81 @@
+version: '2'
+services:
+  mfsmaster:
+    image: moosefs/master  #use GitHub version
+    #build: ./moosefs-master  #use local version
+    container_name: "mfsmaster"
+    networks:
+      mfsnet:
+        ipv4_address: "172.20.0.2"
+  mfsclient:
+    image: moosefs/client  #use GitHub version
+    #build: ./moosefs-client  #use local version
+    container_name: "mfsclient"
+    cap_add:
+      # Needed for mount.
+      - SYS_ADMIN
+    devices:
+      # Needed for mount.
+      - /dev/fuse:/dev/fuse
+    security_opt:
+      # Needed for mount.
+      - apparmor:unconfined
+    stdin_open: true
+    tty: true
+    links:
+      - mfsmaster
+    networks:
+      mfsnet:
+        ipv4_address: "172.20.0.5"
+  mfschunkserver1:
+    image: moosefs/chunkserver  #use GitHub version
+    #build: ./moosefs-chunkserver  #use local version
+    container_name: "mfschunkserver1"
+    links:
+      - mfsmaster
+    networks:
+      mfsnet:
+        ipv4_address: "172.20.0.11"
+  mfschunkserver2:
+    image: moosefs/chunkserver  #use GitHub version
+    #build: ./moosefs-chunkserver  #use local version
+    container_name: "mfschunkserver2"
+    links:
+      - mfsmaster
+    networks:
+      mfsnet:
+        ipv4_address: "172.20.0.12"
+  mfschunkserver3:
+    image: moosefs/chunkserver  #use GitHub version
+    #build: ./moosefs-chunkserver  #use local version
+    container_name: "mfschunkserver3"
+    links:
+      - mfsmaster
+    networks:
+      mfsnet:
+        ipv4_address: "172.20.0.13"
+  mfschunkserver4:
+    image: moosefs/chunkserver  #use GitHub version
+    #build: ./moosefs-chunkserver  #use local version
+    container_name: "mfschunkserver4"
+    links:
+      - mfsmaster
+    networks:
+      mfsnet:
+        ipv4_address: "172.20.0.14"
+  mfschunkserver5:
+    image: moosefs/chunkserver  #use GitHub version
+    #build: ./moosefs-chunkserver  #use local version
+    container_name: "mfschunkserver5"
+    links:
+      - mfsmaster
+    networks:
+      mfsnet:
+        ipv4_address: "172.20.0.15"
+networks:
+  mfsnet:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.20.0.0/16
+         gateway: 172.20.0.1
