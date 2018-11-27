@@ -16,6 +16,9 @@ ADD moosefs-cgiserv /etc/default/moosefs-cgiserv
 # Expose ports
 EXPOSE 9420 9421 9422 9423 9424 9425
 
+# Workaround until either ubuntu defaults to python3 or moosefs changes the shebang.
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
 # Add and run start script
 ADD start.sh /home/start.sh
 RUN chown root:root /home/start.sh
