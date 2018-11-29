@@ -1,119 +1,112 @@
 version: '2'
 services:
   mfsmaster:
-    image: moosefs/master
-    # build: ./moosefs-master
+    # image: moosefs/master
+    build: ./moosefs-master
     container_name: "mfsmaster"
     networks:
-      mfsnet:
+      moosefsnet:
         ipv4_address: "172.20.0.2"
+    ports:
+      - "9425:9425"
   mfschunkserverclient1:
-    image: moosefs/chunkserver-client
-    # build: ./moosefs-chunkserver-client
+    # image: moosefs/chunkserver-client
+    build: ./moosefs-chunkserver-client
     container_name: "mfschunkserverclient1"
-    hostname: mfschunkserverclient1
+    environment:
+      - LABELS=M
+      - SIZE=10
     cap_add:
-      # Needed for mount.
       - SYS_ADMIN
     devices:
-      # Needed for mount.
       - /dev/fuse:/dev/fuse
     security_opt:
-      # Needed for mount.
       - apparmor:unconfined
     stdin_open: true
     tty: true
     links:
       - mfsmaster
     networks:
-      mfsnet:
+      moosefsnet:
         ipv4_address: "172.20.0.11"
+    volumes:
+            - ./data/cs1_hdd0:/mnt/hdd0
+    depends_on:
+      - mfsmaster
   mfschunkserverclient2:
-    image: moosefs/chunkserver-client
-    # build: ./moosefs-chunkserver-client
+    # image: moosefs/chunkserver-client
+    build: ./moosefs-chunkserver-client
     container_name: "mfschunkserverclient2"
-    hostname: mfschunkserverclient2
+    environment:
+      - LABELS=MB
+      - SIZE=10
     cap_add:
-      # Needed for mount.
       - SYS_ADMIN
     devices:
-      # Needed for mount.
       - /dev/fuse:/dev/fuse
     security_opt:
-      # Needed for mount.
       - apparmor:unconfined
     stdin_open: true
     tty: true
     links:
       - mfsmaster
     networks:
-      mfsnet:
+      moosefsnet:
         ipv4_address: "172.20.0.12"
+    volumes:
+            - ./data/cs2_hdd0:/mnt/hdd0
+    depends_on:
+      - mfsmaster
   mfschunkserverclient3:
-    image: moosefs/chunkserver-client
-    # build: ./moosefs-chunkserver-client
+    # image: moosefs/chunkserver-client
+    build: ./moosefs-chunkserver-client
     container_name: "mfschunkserverclient3"
-    hostname: mfschunkserverclient3
+    environment:
+      - LABELS=MB
+      - SIZE=10
     cap_add:
-      # Needed for mount.
       - SYS_ADMIN
     devices:
-      # Needed for mount.
       - /dev/fuse:/dev/fuse
     security_opt:
-      # Needed for mount.
       - apparmor:unconfined
     stdin_open: true
     tty: true
     links:
       - mfsmaster
     networks:
-      mfsnet:
+      moosefsnet:
         ipv4_address: "172.20.0.13"
+    volumes:
+            - ./data/cs3_hdd0:/mnt/hdd0
+    depends_on:
+      - mfsmaster
   mfschunkserverclient4:
-    image: moosefs/chunkserver-client
-    # build: ./moosefs-chunkserver-client
+    # image: moosefs/chunkserver-client
+    build: ./moosefs-chunkserver-client
     container_name: "mfschunkserverclient4"
-    hostname: mfschunkserverclient4
+    environment:
+      - LABELS=B
+      - SIZE=10
     cap_add:
-      # Needed for mount.
       - SYS_ADMIN
     devices:
-      # Needed for mount.
       - /dev/fuse:/dev/fuse
     security_opt:
-      # Needed for mount.
       - apparmor:unconfined
     stdin_open: true
     tty: true
     links:
       - mfsmaster
     networks:
-      mfsnet:
+      moosefsnet:
         ipv4_address: "172.20.0.14"
-  mfschunkserverclient5:
-    image: moosefs/chunkserver-client
-    # build: ./moosefs-chunkserver-client
-    container_name: "mfschunkserverclient5"
-    hostname: mfschunkserverclient5
-    cap_add:
-      # Needed for mount.
-      - SYS_ADMIN
-    devices:
-      # Needed for mount.
-      - /dev/fuse:/dev/fuse
-    security_opt:
-      # Needed for mount.
-      - apparmor:unconfined
-    stdin_open: true
-    tty: true
-    links:
+    volumes:
+            - ./data/cs4_hdd0:/mnt/hdd0
+    depends_on:
       - mfsmaster
-    networks:
-      mfsnet:
-        ipv4_address: "172.20.0.15"
 networks:
-  mfsnet:
+  moosefsnet:
     driver: bridge
     ipam:
      config:
