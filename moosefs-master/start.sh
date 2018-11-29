@@ -8,7 +8,7 @@ echo "      mfsmaster" >> /etc/hosts
 ifconfig eth0 | awk '/inet addr/{print substr($2,6)}'
 
 mfsmaster start -a
-service moosefs-cgiserv start
+mfscgiserv
 
 if [[ $1 == "-d" ]]; then
     while true; do sleep 1000; done

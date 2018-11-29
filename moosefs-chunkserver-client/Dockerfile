@@ -1,11 +1,11 @@
-FROM ubuntu:14.04
+FROM debian:stretch
 
-# Install wget, lsb-release and curl
-RUN apt-get update && apt-get install -y wget lsb-release curl fuse libfuse2 tree
+# Install wget, lsb-release, curl, fuse and tree
+RUN apt-get update && apt-get upgrade -y && apt-get install -y wget lsb-release curl fuse libfuse2  net-tools gnupg2 systemd tree
 
 # Add key
 RUN wget -O - http://ppa.moosefs.com/moosefs.key | apt-key add -
-RUN . /etc/lsb-release && echo "deb http://ppa.moosefs.com/moosefs-3/apt/ubuntu/$DISTRIB_CODENAME $DISTRIB_CODENAME main" > /etc/apt/sources.list.d/moosefs.list
+RUN echo "deb http://ppa.moosefs.com/moosefs-3/apt/$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)/$(lsb_release -sc) $(lsb_release -sc) main" > /etc/apt/sources.list.d/moosefs.list
 
 # Install MooseFS chunkserver and client
 RUN apt-get update && apt-get install -y moosefs-chunkserver moosefs-client
