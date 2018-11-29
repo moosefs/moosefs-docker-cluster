@@ -1,8 +1,8 @@
 version: '2'
 services:
   mfsmaster:
-    # image: moosefs/master  #use GitHub version
-    build: ./moosefs-master  #use local version
+    image: moosefs/master  #use GitHub version
+    # build: ./moosefs-master  #use local version
     container_name: "mfsmaster"
     networks:
       moosefsnet:
@@ -10,8 +10,8 @@ services:
     ports:
       - "9425:9425"
   mfsclient:
-    # image: moosefs/client  #use GitHub version
-    build: ./moosefs-client  #use local version
+    image: moosefs/client  #use GitHub version
+    # build: ./moosefs-client  #use local version
     container_name: "mfsclient"
     cap_add:
       - SYS_ADMIN
@@ -29,8 +29,8 @@ services:
     depends_on:
       - mfsmaster
   mfschunkserver1:
-    # image: moosefs/chunkserver  #use GitHub version
-    build: ./moosefs-chunkserver  #use local version
+    image: moosefs/chunkserver  #use GitHub version
+    # build: ./moosefs-chunkserver  #use local version
     container_name: "mfschunkserver1"
     environment:
       - LABELS=M
@@ -45,8 +45,8 @@ services:
     depends_on:
       - mfsmaster
   mfschunkserver2:
-    # image: moosefs/chunkserver  #use GitHub version
-    build: ./moosefs-chunkserver  #use local version
+    image: moosefs/chunkserver  #use GitHub version
+    # build: ./moosefs-chunkserver  #use local version
     container_name: "mfschunkserver2"
     environment:
       - LABELS=MB
@@ -61,8 +61,8 @@ services:
     depends_on:
       - mfsmaster
   mfschunkserver3:
-    # image: moosefs/chunkserver  #use GitHub version
-    build: ./moosefs-chunkserver  #use local version
+    image: moosefs/chunkserver  #use GitHub version
+    # build: ./moosefs-chunkserver  #use local version
     container_name: "mfschunkserver3"
     environment:
       - LABELS=MB
@@ -77,8 +77,8 @@ services:
     depends_on:
       - mfsmaster
   mfschunkserver4:
-    # image: moosefs/chunkserver  #use GitHub version
-    build: ./moosefs-chunkserver  #use local version
+    image: moosefs/chunkserver  #use GitHub version
+    # build: ./moosefs-chunkserver  #use local version
     container_name: "mfschunkserver4"
     environment:
       - LABELS=B
