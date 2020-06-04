@@ -1,26 +1,20 @@
-FROM debian:stretch
+FROM debian:buster
 
-# Install wget, lsb-release and curl
-RUN apt-get update && apt-get upgrade -y && apt-get install -y wget lsb-release curl net-tools gnupg2 systemd python
+# Install wget and gnupg2
+RUN apt-get update && apt-get install -y wget gnupg2
 
 # Add key
-RUN wget -O - http://ppa.moosefs.com/moosefs.key | apt-key add -
-RUN echo "deb http://ppa.moosefs.com/moosefs-3/apt/$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)/$(lsb_release -sc) $(lsb_release -sc) main" > /etc/apt/sources.list.d/moosefs.list
+RUN wget -O - http://ppa.moosefs.com/moosefs.key 2>/dev/null | apt-key add - 2>/dev/null
+RUN echo "deb http://ppa.moosefs.com/moosefs-3/apt/debian/buster buster main" > /etc/apt/sources.list.d/moosefs.list
 
-# Install MooseFS master and CGI
-RUN apt-get update && apt-get install -y moosefs-master moosefs-cgi moosefs-cgiserv
+# Install MooseFS master
+RUN apt-get update && apt-get install -y moosefs-master
 
-#Enable CGI server autostart
-RUN systemctl enable moosefs-cgiserv
-
-#Enable master server autostart
-RUN systemctl enable moosefs-master
-
-# Expose ports
-EXPOSE 9420 9421 9422 9423 9424 9425
+# Expose ports master ports
+EXPOSE 9419 9420 9421
 
 # Add and run start script
-ADD start.sh /home/start.sh
-RUN chown root:root /home/start.sh
-RUN chmod 700 /home/start.sh
-CMD ["/home/start.sh", "-d"]
+ADD master.sh /usr/sbin/master.sh
+RUN chown root:root /usr/sbin/master.sh ; chmod 700 /usr/sbin/master.sh
+
+CMD ["master.sh"]
