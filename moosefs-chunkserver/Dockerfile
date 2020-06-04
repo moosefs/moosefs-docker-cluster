@@ -1,11 +1,11 @@
-FROM debian:stretch
+FROM debian:buster
 
 # Install wget, lsb-release and curl
-RUN apt-get update && apt-get upgrade -y && apt-get install -y wget lsb-release curl  net-tools gnupg2 systemd
+RUN apt-get update && apt-get install -y wget gnupg2
 
 # Add key
-RUN wget -O - http://ppa.moosefs.com/moosefs.key | apt-key add -
-RUN echo "deb http://ppa.moosefs.com/moosefs-3/apt/$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)/$(lsb_release -sc) $(lsb_release -sc) main" > /etc/apt/sources.list.d/moosefs.list
+RUN wget -O - http://ppa.moosefs.com/moosefs.key 2>/dev/null | apt-key add - 2>/dev/null
+RUN echo "deb http://ppa.moosefs.com/moosefs-3/apt/debian/buster buster main" > /etc/apt/sources.list.d/moosefs.list
 
 # Install MooseFS chunkserver
 RUN apt-get update && apt-get install -y moosefs-chunkserver
@@ -13,9 +13,8 @@ RUN apt-get update && apt-get install -y moosefs-chunkserver
 # Expose ports
 EXPOSE 9419 9420 9422
 
-# Add and run start script
-ADD start-chunkserver.sh /home/start-chunkserver.sh
-RUN chown root:root /home/start-chunkserver.sh
-RUN chmod 700 /home/start-chunkserver.sh
+# Add start script
+ADD chunkserver.sh /usr/sbin/chunkserver.sh
+RUN chown root:root /usr/sbin/chunkserver.sh ; chmod 700 /usr/sbin/chunkserver.sh ; mkdir -p /mnt/hdd0
 
-CMD ["/home/start-chunkserver.sh", "-d"]
+CMD ["chunkserver.sh"]
