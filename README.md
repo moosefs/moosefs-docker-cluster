@@ -1,54 +1,28 @@
 # MooseFS Docker Cluster
 
-This is a sample configuration of a multiple node MooseFS cluster on Docker using Debian Stretch. It consists of a master server with a CGI, 4 chunkservers and one client machine. After a successful installation you have a fully working MooseFS cluster to play with its amazing features.
+This is a basic configuration of a multiple nodes MooseFS cluster based on the Debian Buster Docker image. It consists of a master server, a CGI server, 4 chunk servers, and one client. After a successful installation, you will have a fully working MooseFS cluster to play with its amazing features.
 
 # Updates
 
-New features:
-- specify storage size per chunkserver (env: **SIZE**, default: 10)
-- specify label per chunkserver (env: **LABEL**, default: *empty*)
-- switched to *debian:stretch* as base image
-- example with 4 chunkservers (labels: M, MB, MB, B)
-- MooseFS disks are now mounted as volumes
+- All moosefs processes are now correctly handling signals.
+- Metadata and data are now persistent and mounted as volumes.
+- TEST and PROD moosefs master metadata behavior defined by MFS_ENV variable.
+- Specify storage size per chunk server (env: **SIZE**) default not defined. Depends on your local storage free space.
+- Specify label per chunk server (env: **LABEL**, default: *empty*).
+- Switched to *debian:buster* as a base image.
+- Example with 4 chunk servers (labels: M, MB, MB, B).
 
 # Cluster configurations
 
-In this repository you will find 2 sample configurations which you can run to try MooseFS.
-
-## 4 Chunkservers + Client
-
-Build and run in background:
-
-```
-docker-compose build
-docker-compose up -d
-```
-
 **File docker-compose.yml**
 
-- master with CGI [http://172.20.0.2:9425](http://172.20.0.2:9425)
-- chunkserver1 **172.20.0.11**, **10 GiB** storage, label: **M**
-- chunkserver2 **172.20.0.12**, **10 GiB** storage, label: **M**,**B**
-- chunkserver3 **172.20.0.13**, **10 GiB** storage, label: **M**,**B**
-- chunkserver4 **172.20.0.14**, **10 GiB** storage, label: **B**
-- client **172.168.20.0.5**
-
-## 4 Chunkservers + 4 Clients
-
-Build and run in background:
-
-```
-docker-compose -f docker-compose-chunkserver-client.yml build
-docker-compose -f docker-compose-chunkserver-client.yml up -d
-```
-
-**File docker-compose-chunkserver-client.yml**
-
-- master with CGI [http://172.20.0.2:9425](http://172.20.0.2:9425)
-- chunkserver1 **172.20.0.11**, **10 GiB** storage, label: **M** (mount point: `/mnt/moosefs`)
-- chunkserver2 **172.20.0.12**, **10 GiB** storage, label: **M,B** (mount point: `/mnt/moosefs`)
-- chunkserver3 **172.20.0.13**, **10 GiB** storage, label: **M,B** (mount point: `/mnt/moosefs`)
-- chunkserver4 **172.20.0.14**, **10 GiB** storage, label: **B** (mount point: `/mnt/moosefs`)
+- master **172.20.0.2**
+- CGI [http://localhost:9425](http://localhost:9425) on Linux also [http://172.20.0.3:9425](http://172.20.0.3:9425)
+- chunkserver1 **172.20.0.11**, label: **M**
+- chunkserver2 **172.20.0.12**, label: **M**,**B**
+- chunkserver3 **172.20.0.13**, label: **M**,**B**
+- chunkserver4 **172.20.0.14**, label: **B**
+- client **172.168.20.0.100**
 
 # Setup
 
@@ -61,72 +35,79 @@ git clone https://github.com/moosefs/moosefs-docker-cluster
 cd moosefs-docker-cluster
 ```
 
-Build and run in background:
-
+Build and run:
 ```
 docker-compose build
-docker-compose up -d
+docker-compose up
 ```
 
-or
-
+On Linux OS run docker-compose as root:
 ```
-docker-compose -f docker-compose-chunkserver-client.yml build
-docker-compose -f docker-compose-chunkserver-client.yml up -d
+sudo -E docker-compose build
+sudo -E docker-compose up
 ```
 
-"-d" is detached - running Docker nodes in background, so Docker console output is invisible.
+You can also run docker-compose in detached mode. All running Docker nodes will run in the background, so Docker console output will be invisible.
+```
+sudo -E docker-compose build
+sudo -E docker-compose up -d
+```
 
 You can check if instances are running:
-
 ```
 docker ps
 ```
 
-You should have 1 master, 4 chunkservers and 1 client running (first configuration). Expected output should be similar to:
+You should have 1 master, 4 chunk servers and 1 client running (first configuration). The expected output should be similar to this:
 
 ```
-CONTAINER ID        IMAGE                               COMMAND                  CREATED             STATUS              PORTS                     NAMES
-2fe620447b37        dockermoosefscluster_client         "/home/start-clien..."   5 minutes ago       Up 5 minutes                                  client
-204c115cd8ad        dockermoosefscluster_chunkserver2   "/home/start-chunk..."   5 minutes ago       Up 5 minutes        9419-9420/tcp, 9422/tcp   chunkserver2
-48343721de4f        dockermoosefscluster_chunkserver4   "/home/start-chunk..."   5 minutes ago       Up 5 minutes        9419-9420/tcp, 9422/tcp   chunkserver4
-30ca217fa862        dockermoosefscluster_master         "/home/start.sh -d"      5 minutes ago       Up 5 minutes        9420-9425/tcp             master
-28e2a64d0fb9        dockermoosefscluster_chunkserver1   "/home/start-chunk..."   5 minutes ago       Up 5 minutes        9419-9420/tcp, 9422/tcp   chunkserver1
-c83c70580795        dockermoosefscluster_chunkserver3   "/home/start-chunk..."   5 minutes ago       Up 5 minutes        9419-9420/tcp, 9422/tcp   chunkserver3
+CONTAINER ID        IMAGE                                    COMMAND                  CREATED             STATUS              PORTS                     NAMES
+76193581d1c4        moosefs-docker-cluster_mfsclient         "mfsmount -f /mnt/mo…"   36 minutes ago      Up 5 seconds        9419-9422/tcp             mfsclient
+f69a21cf972c        moosefs-docker-cluster_mfschunkserver2   "chunkserver.sh"         36 minutes ago      Up 6 seconds        9419-9420/tcp, 9422/tcp   mfschunkserver2
+5b437ceef0b2        moosefs-docker-cluster_mfschunkserver3   "chunkserver.sh"         36 minutes ago      Up 6 seconds        9419-9420/tcp, 9422/tcp   mfschunkserver3
+dede808d4d82        moosefs-docker-cluster_mfschunkserver4   "chunkserver.sh"         38 minutes ago      Up 6 seconds        9419-9420/tcp, 9422/tcp   mfschunkserver4
+b4be063af597        moosefs-docker-cluster_mfschunkserver1   "chunkserver.sh"         40 minutes ago      Up 6 seconds        9419-9420/tcp, 9422/tcp   mfschunkserver1
+659c3f1fba33        moosefs-docker-cluster_mfscgi            "mfscgiserv -f"          40 minutes ago      Up 6 seconds        0.0.0.0:9425->9425/tcp    mfscgi
+b9017fddbd85        moosefs-docker-cluster_mfsmaster         "master.sh"              40 minutes ago      Up 7 seconds        9419-9421/tcp             mfsmaster
 ```
 
 # Attach/detach to/from container
 
-You can **attach** to the client node (press "Enter" twice):
+For example, if you like to **attach** to the client node execute this command:
 
 ```
-docker container attach mfsclient
+docer exec -it mfslient bash
 ```
 
-To **detach** from container use the escape sequence `Ctrl + p`, `Ctrl + q`.
+To **detach** from container just press `Ctrl + d` keys.
 
-Now MooseFS filesystem is mounted as `/mnt/moosefs`. If everything is ok you should see our welcome message with:
+# MooseFS client
+
+MooseFS filesystem is mounted at `/mnt/moosefs`. If everything is ok you should see this ASCII art:
 ```
-cd /mnt/moosefs
-
-cat welcome_to_moosefs.txt
+cat /mnt/moosefs/.mooseart
+ \_\            /_/
+    \_\_    _/_/
+        \--/
+        /OO\_--____
+       (__)        )
+        ``\    __  |
+           ||-'  `||
+           ||     ||
+           ""     ""
 ```
 
 # CGI
 
-The CGI is available here: [http://172.20.0.2:9425](http://172.20.0.2:9425) (be aware of a local 172.20.0.* network).
+The CGI is available here: [http://localhost:9425](http://localhost:9425)
+Also on Linux OS CGI container is available at IP address [http://172.20.0.3:9425](http://172.20.0.3:9425) (be aware of a local 172.20.0.* network).
 
 ![MooseFS CGI](https://github.com/moosefs/moosefs-docker-cluster/raw/master/images/cgi.png)
 
 # Persistence
 
 Your MooseFS Docker cluster is persistent. It means all files you created in the /mnt/moosefs folder will remain there even after turning containers off.
-MooseFS disks are now mounted in host `./data` directory.
-
-# Warning
-
-Chunkservers are paired with Master server, so if you destroy the machine with master server you will not be able to access your data. Data will still be there in volumes (`./data` directory) but chunkservers will not want to connect to the new Master server.
-
+All data and metadata files are stored in the host `./data` directory.
 # Docker Hub
 
 | Image name | Pulls | Stars | Build |
