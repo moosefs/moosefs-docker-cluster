@@ -68,7 +68,7 @@ abf5910b53bc        moosefsdockercluster_mfsclient         "mfsmount -f /mnt/moâ
 b8c2cd770187        moosefsdockercluster_mfschunkserver2   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver2
 100f20683b3a        moosefsdockercluster_mfschunkserver1   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver1
 68ffb70ab361        moosefsdockercluster_mfschunkserver4   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver4
-82a2c3bd831d        moosefsdockercluster_mfsmetalogger     "metalogger.sh"          7 minutes ago       Up 7 minutes        9419-9421/tcp            mfsmetalogger
+82a2c3bd831d        moosefsdockercluster_mfsmetalogger     "metalogger.sh"          7 minutes ago       Up 7 minutes                                 mfsmetalogger
 05736e4bdd3c        moosefsdockercluster_mfscgi            "mfscgiserv -f"          7 minutes ago       Up 7 minutes        0.0.0.0:9425->9425/tcp   mfscgi
 e83a1fb062a1        moosefsdockercluster_mfsmaster         "master.sh"              7 minutes ago       Up 7 minutes        9419-9421/tcp            mfsmaster
 ```
