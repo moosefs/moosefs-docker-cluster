@@ -76,7 +76,7 @@ b9017fddbd85        moosefs-docker-cluster_mfsmaster         "master.sh"        
 For example, if you like to **attach** to the client node execute this command:
 
 ```
-docer exec -it mfslient bash
+docker exec -it mfsclient bash
 ```
 
 To **detach** from container just press `Ctrl + d` keys.
