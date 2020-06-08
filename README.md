@@ -18,6 +18,7 @@ This is a basic configuration of a multiple nodes MooseFS cluster based on the D
 
 - master **172.20.0.2**
 - CGI [http://localhost:9425](http://localhost:9425) on Linux also [http://172.20.0.3:9425](http://172.20.0.3:9425)
+- metalogger **172.20.0.4**
 - chunkserver1 **172.20.0.11**, label: **M**
 - chunkserver2 **172.20.0.12**, label: **M**,**B**
 - chunkserver3 **172.20.0.13**, label: **M**,**B**
@@ -58,17 +59,18 @@ You can check if instances are running:
 docker ps
 ```
 
-You should have 1 master, 4 chunk servers and 1 client running (first configuration). The expected output should be similar to this:
+You should have 1 master, 1 metalogger, 4 chunk servers and 1 client running (first configuration). The expected output should be similar to this:
 
 ```
-CONTAINER ID        IMAGE                                    COMMAND                  CREATED             STATUS              PORTS                     NAMES
-76193581d1c4        moosefs-docker-cluster_mfsclient         "mfsmount -f /mnt/mo…"   36 minutes ago      Up 5 seconds        9419-9422/tcp             mfsclient
-f69a21cf972c        moosefs-docker-cluster_mfschunkserver2   "chunkserver.sh"         36 minutes ago      Up 6 seconds        9419-9420/tcp, 9422/tcp   mfschunkserver2
-5b437ceef0b2        moosefs-docker-cluster_mfschunkserver3   "chunkserver.sh"         36 minutes ago      Up 6 seconds        9419-9420/tcp, 9422/tcp   mfschunkserver3
-dede808d4d82        moosefs-docker-cluster_mfschunkserver4   "chunkserver.sh"         38 minutes ago      Up 6 seconds        9419-9420/tcp, 9422/tcp   mfschunkserver4
-b4be063af597        moosefs-docker-cluster_mfschunkserver1   "chunkserver.sh"         40 minutes ago      Up 6 seconds        9419-9420/tcp, 9422/tcp   mfschunkserver1
-659c3f1fba33        moosefs-docker-cluster_mfscgi            "mfscgiserv -f"          40 minutes ago      Up 6 seconds        0.0.0.0:9425->9425/tcp    mfscgi
-b9017fddbd85        moosefs-docker-cluster_mfsmaster         "master.sh"              40 minutes ago      Up 7 seconds        9419-9421/tcp             mfsmaster
+CONTAINER ID        IMAGE                                  COMMAND                  CREATED             STATUS              PORTS                    NAMES
+abf5910b53bc        moosefsdockercluster_mfsclient         "mfsmount -f /mnt/mo…"   7 minutes ago       Up 7 minutes                                 mfsclient
+7a1152cc31f3        moosefsdockercluster_mfschunkserver3   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver3
+b8c2cd770187        moosefsdockercluster_mfschunkserver2   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver2
+100f20683b3a        moosefsdockercluster_mfschunkserver1   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver1
+68ffb70ab361        moosefsdockercluster_mfschunkserver4   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver4
+82a2c3bd831d        moosefsdockercluster_mfsmetalogger     "metalogger.sh"          7 minutes ago       Up 7 minutes        9419-9421/tcp            mfsmetalogger
+05736e4bdd3c        moosefsdockercluster_mfscgi            "mfscgiserv -f"          7 minutes ago       Up 7 minutes        0.0.0.0:9425->9425/tcp   mfscgi
+e83a1fb062a1        moosefsdockercluster_mfsmaster         "master.sh"              7 minutes ago       Up 7 minutes        9419-9421/tcp            mfsmaster
 ```
 
 # Attach/detach to/from container
