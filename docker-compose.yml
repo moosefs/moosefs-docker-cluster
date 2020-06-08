@@ -27,6 +27,23 @@ services:
     depends_on:
       - mfsmaster
 
+  mfsmetalogger:
+    build: ./moosefs-metalogger
+    container_name: "mfsmetalogger"
+    networks:
+      moosefsnet:
+        ipv4_address: "172.20.0.4"
+    volumes:
+      - ./data/metalogger/meta:/var/lib/mfs
+    environment:
+      - MFS_ENV=TEST
+      # In the TEST environment, if metadata.mfs file or other metadata files
+      # like metdata.mfs.back and changelog.0.mfs are missing, the script will
+      # create an EMPTY metadata file!
+      # When MFS_ENV=PROD metdata.mfs file will not be created!
+    depends_on:
+      - mfsmaster
+
   mfschunkserver1:
     build: ./moosefs-chunkserver
     container_name: "mfschunkserver1"

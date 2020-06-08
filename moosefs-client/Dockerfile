@@ -13,6 +13,4 @@ RUN apt-get update && apt-get install -y moosefs-client moosefs-cli
 # Make a moosefs mountpoint
 RUN mkdir -p /mnt/moosefs
 
-EXPOSE 9419 9420 9421 9422
-
 CMD ["mfsmount", "-f", "/mnt/moosefs"]
