@@ -11,7 +11,7 @@ RUN echo "deb http://ppa.moosefs.com/moosefs-3/apt/debian/buster buster main" > 
 RUN apt-get update && apt-get install -y moosefs-chunkserver
 
 # Expose ports
-EXPOSE 9419 9420 9422
+EXPOSE 9422
 
 # Add start script
 ADD chunkserver.sh /usr/sbin/chunkserver.sh
