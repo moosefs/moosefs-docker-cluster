@@ -23,7 +23,7 @@ else
             exec mfsmetalogger -f
         else
             echo "No /var/lib/mfs/metadata.mfs file!"
-            echo "EXITING - THS IS PRODUCTION ENVIRONMENT!"
+            echo "EXITING - THIS IS PRODUCTION ENVIRONMENT!"
             exit 1
         fi
     fi
