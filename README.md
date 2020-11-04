@@ -37,24 +37,28 @@ cd moosefs-docker-cluster
 ```
 
 Build and run:
+
 ```
 docker-compose build
 docker-compose up
 ```
 
 On Linux OS run docker-compose as root:
+
 ```
 sudo -E docker-compose build
 sudo -E docker-compose up
 ```
 
 You can also run docker-compose in detached mode. All running Docker nodes will run in the background, so Docker console output will be invisible.
+
 ```
 sudo -E docker-compose build
 sudo -E docker-compose up -d
 ```
 
 You can check if instances are running:
+
 ```
 docker ps
 ```
@@ -86,6 +90,7 @@ To **detach** from container just press `Ctrl + d` keys.
 # MooseFS client
 
 MooseFS filesystem is mounted at `/mnt/moosefs`. If everything is ok you should see this ASCII art:
+
 ```
 cat /mnt/moosefs/.mooseart
  \_\            /_/
@@ -112,11 +117,14 @@ Your MooseFS Docker cluster is persistent. It means all files you created in the
 All data and metadata files are stored in the host `./data` directory.
 # Docker Hub
 
-| Image name | Pulls | Stars | Build |
-|:-----|:-----|:-----|:-----|
-| [moosefs/master](https://hub.docker.com/r/moosefs/master/) | [![master](https://img.shields.io/docker/pulls/moosefs/master.svg)](https://hub.docker.com/r/moosefs/master/) | ![master](https://img.shields.io/docker/stars/moosefs/master.svg) | ![](https://img.shields.io/docker/build/moosefs/master.svg) |
-| [moosefs/client](https://hub.docker.com/r/moosefs/client/) | [![client](https://img.shields.io/docker/pulls/moosefs/client.svg)](https://hub.docker.com/r/moosefs/client/) | ![client](https://img.shields.io/docker/stars/moosefs/client.svg) | ![](https://img.shields.io/docker/build/moosefs/client.svg) |
-| [moosefs/chunkserver](https://hub.docker.com/r/moosefs/chunkserver/)  | [![chunkserver](https://img.shields.io/docker/pulls/moosefs/chunkserver.svg)](https://hub.docker.com/r/moosefs/chunkserver/)    | ![chunkserver](https://img.shields.io/docker/stars/moosefs/chunkserver.svg)  | ![](https://img.shields.io/docker/build/moosefs/chunkserver.svg) |
-| [moosefs/chunkserver-client](https://hub.docker.com/r/moosefs/chunkserver-client/)  | [![chunkserver-client](https://img.shields.io/docker/pulls/moosefs/chunkserver-client.svg)](https://hub.docker.com/r/moosefs/chunkserver-client/)    | ![chunkserver-client](https://img.shields.io/docker/stars/moosefs/chunkserver-client.svg)  | ![](https://img.shields.io/docker/build/moosefs/chunkserver-client.svg) |
+| Image name | Image size | Pulls | Stars | Build |
+|:-----|:-----|:-----|:-----|:-----|
+| [moosefs/master](https://hub.docker.com/r/moosefs/master/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/master?sort=date) | [![master](https://img.shields.io/docker/pulls/moosefs/master)](https://hub.docker.com/r/moosefs/master/) | ![master](https://img.shields.io/docker/stars/moosefs/master) | ![master](https://img.shields.io/docker/build/moosefs/master) |
+| [moosefs/chunkserver](https://hub.docker.com/r/moosefs/chunkserver/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/chunkserver?sort=date) | [![chunkserver](https://img.shields.io/docker/pulls/moosefs/chunkserver)](https://hub.docker.com/r/moosefs/chunkserver/) | ![chunkserver](https://img.shields.io/docker/stars/moosefs/chunkserver) | ![chunkserver](https://img.shields.io/docker/build/moosefs/chunkserver) |
+| [moosefs/client](https://hub.docker.com/r/moosefs/client/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/client?sort=date) | [![client](https://img.shields.io/docker/pulls/moosefs/client)](https://hub.docker.com/r/moosefs/client/) | ![client](https://img.shields.io/docker/stars/moosefs/client) | ![client](https://img.shields.io/docker/build/moosefs/client) |
+| [moosefs/metalogger](https://hub.docker.com/r/moosefs/metalogger/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/metalogger?sort=date) | [![metalogger](https://img.shields.io/docker/pulls/moosefs/metalogger)](https://hub.docker.com/r/moosefs/cgi/)    | ![metalogger](https://img.shields.io/docker/stars/moosefs/metalogger)  | ![metalogger](https://img.shields.io/docker/build/moosefs/metalogger) |
+| [moosefs/cgi](https://hub.docker.com/r/moosefs/cgi/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/cgi?sort=date) | [![cgi](https://img.shields.io/docker/pulls/moosefs/cgi)](https://hub.docker.com/r/moosefs/cgi/) | ![cgi](https://img.shields.io/docker/stars/moosefs/cgi)  | ![cgi](https://img.shields.io/docker/build/moosefs/cgi) |
 
-Scripts are based on [Kai Sasaki's *Lewuathe/docker-hadoop-cluster*](https://github.com/Lewuathe/docker-hadoop-cluster). Thank you Kai!
+
+
+Scripts are based on [Kai Sasaki's *Lewuathe/docker-hadoop-cluster*](https://github.com/Lewuathe/docker-hadoop-cluster). Thank you, Kai!
