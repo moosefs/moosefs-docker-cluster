@@ -1,7 +1,7 @@
 FROM debian:buster
 
 # Install wget, lsb-release and curl
-RUN apt-get update && apt-get install -y wget gnupg2
+RUN apt-get update && apt-get install -y wget gnupg2 gettext-base
 
 # Add key
 RUN wget -O - http://ppa.moosefs.com/moosefs.key 2>/dev/null | apt-key add - 2>/dev/null

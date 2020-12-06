@@ -13,4 +13,8 @@ RUN apt-get update && apt-get install -y moosefs-cgi moosefs-cgiserv moosefs-cli
 # Expose ports master ports
 EXPOSE 9425
 
-CMD ["mfscgiserv", "-f"]
+# Add start script
+ADD cgiserver.sh /usr/sbin/cgiserver.sh
+RUN chown root:root /usr/sbin/cgiserver.sh ; chmod 700 /usr/sbin/cgiserver.sh
+
+CMD ["cgiserver.sh"]
