@@ -116,6 +116,145 @@ Also on Linux, CGI Server container is available at the IP address: [http://172.
 
 Your MooseFS Docker cluster is persistent. It means all files you created in the `/mnt/moosefs` folder will remain there even after turning containers off.
 All data and metadata files are stored in the host `./data` directory.
+
+# Pass config as env variable
+
+There might be situations where you would want to setup a config file on the container start.
+For that scenario you can pass the config file as a base64 encoded text. For example lets say
+you want to setup your chunk servers to connect to master in k8s cluster where IP's are dynamically assigned
+to pods. You have you master yaml definition set up as:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moosefs-master
+  namespace: storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moosefs-master
+  template:
+    metadata:
+      labels:
+        app: moosefs-master
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: moosefs-master
+        image: rocinantesystems/moosefs-master:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 9419
+        - containerPort: 9420
+        - containerPort: 9421
+        volumeMounts:
+        - name: moosefs-master-mfs
+          mountPath: /var/lib/mfs
+      volumes:
+      - name: moosefs-master-mfs
+        azureDisk:
+          kind: Managed
+          diskName: MooseMasterMfs
+          diskURI: /subscriptions/<subscriptionID>/resourceGroups/<resourceGroup>/providers/Microsoft.Compute/disks/MooseMasterMfs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moosefs-master
+  namespace: storage
+spec:
+  type: NodePort
+  ports:
+  - port: 9419
+    targetPort: 9419
+    name: listen-metalogger
+  - port: 9420
+    targetPort: 9420
+    name: listen
+  - port: 9421
+    targetPort: 9421
+    name: listen-client
+  selector:
+    app: moosefs-master
+```
+
+This will reserve an IP in the cluster where the ports will be reached.
+
+In order for your chunkservers to automatically connect to this IP you would need to have your `mfschunkserver.cfg` defined as:
+```
+MASTER_HOST = $MOOSEFS_MASTER_SERVICE_HOST
+CSSERV_LISTEN_PORT = $MOOSEFS_CHUNKSERVER_SERVICE_PORT
+DATA_PATH = /mnt/hdd0/mfs
+```
+`MOOSEFS_MASTER_SERVICE_HOST` variable is set by k8s cluster and contains IP where the master service is accessible by. `MOOSEFS_CHUNKSERVER_SERVICE_PORT` this is the port on which we will expose our chunk server.
+
+Base64 encoded config data is:
+```
+TUFTVEVSX0hPU1QgPSAkTU9PU0VGU19NQVNURVJfU0VSVklDRV9IT1NUCkNTU0VSVl9MSVNURU5fUE9SVCA9ICRNT09TRUZTX0NIVU5LU0VSVkVSX1NFUlZJQ0VfUE9SVApEQVRBX1BBVEggPSAvbW50L2hkZDAvbWZzCg==
+```
+
+Now we can spin up chunkserver(s) with:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moosefs-chunkserver-1
+  namespace: storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moosefs-chunkserver-1
+  template:
+    metadata:
+      labels:
+        app: moosefs-chunkserver-1
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: moosefs-chunkserver-1
+        env:
+        - name: MFS_CHUNKSERVER_CONFIG
+          value: TUFTVEVSX0hPU1QgPSAkTU9PU0VGU19NQVNURVJfU0VSVklDRV9IT1NUCkNTU0VSVl9MSVNURU5fUE9SVCA9ICRNT09TRUZTX0NIVU5LU0VSVkVSX1NFUlZJQ0VfUE9SVApEQVRBX1BBVEggPSAvbW50L2hkZDAvbWZzCg==
+        - name: SIZE
+          value: 16
+        image: rocinantesystems/moosefs-chunkserver:latest
+        ports:
+        - containerPort: 9422
+        volumeMounts:
+        - name: moosefs-chunkserver-data-1
+          mountPath: /mnt/hdd0
+      volumes:
+      - name: moosefs-chunkserver-data-1
+        azureDisk:
+          kind: Managed
+          diskName: MfsHangfireData1
+          diskURI: /subscriptions/<subscriptionID>/resourceGroups/<resourceGroup>/providers/Microsoft.Compute/disks/MfsHangfireData1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moosefs-chunkserver-1
+  namespace: storage
+spec:
+  type: NodePort
+  ports:
+  - port: 9422
+    targetPort: 9422
+  selector:
+    app: moosefs-chunkserver-1
+```
+Repeat this for other chunk servers modifying your base64 string accordingly. If you leave all the chunkservers on default port `9422` you can use same base64 encoded string `TUFTVEVSX0hPU1QgPSAkTU9PU0VGU19NQVNURVJfU0VSVklDRV9IT1NUCkRBVEFfUEFUSCA9IC9tbnQvaGRkMC9tZnMK` which will only set correct `MASTER_HOST` and `DATA_PATH`
+
 # Docker Hub
 
 | Image name | Image size | Pulls | Stars | Build |
