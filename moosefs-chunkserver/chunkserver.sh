@@ -37,4 +37,17 @@ if [ ! -z ${LABELS+X} ];
         echo "LABELS=$LABELS" >> /etc/mfs/mfschunkserver.cfg
 fi
 
+if [ ! -z ${MASTER_HOST+X} ];
+    then
+        echo "MASTER_HOST=$MASTER_HOST" >> /etc/mfs/mfschunkserver.cfg
+fi
+if [ ! -z ${CSSERV_LISTEN_PORT+X} ];
+    then
+        echo "CSSERV_LISTEN_PORT=$CSSERV_LISTEN_PORT" >> /etc/mfs/mfschunkserver.cfg
+fi
+if [ ! -z ${DATA_PATH+X} ];
+    then
+        echo "DATA_PATH=$DATA_PATH" >> /etc/mfs/mfschunkserver.cfg
+fi
+
 exec mfschunkserver -f
