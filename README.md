@@ -143,7 +143,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: moosefs-master
-        image: rocinantesystems/moosefs-master:latest
+        image: moosefs/master:latest
         resources:
           requests:
             cpu: 100m
@@ -227,7 +227,7 @@ spec:
           value: TUFTVEVSX0hPU1QgPSAkTU9PU0VGU19NQVNURVJfU0VSVklDRV9IT1NUCkNTU0VSVl9MSVNURU5fUE9SVCA9ICRNT09TRUZTX0NIVU5LU0VSVkVSX1NFUlZJQ0VfUE9SVApEQVRBX1BBVEggPSAvbW50L2hkZDAvbWZzCg==
         - name: SIZE
           value: 16
-        image: rocinantesystems/moosefs-chunkserver:latest
+        image: moosefs/chunkserver:latest
         ports:
         - containerPort: 9422
         volumeMounts:
