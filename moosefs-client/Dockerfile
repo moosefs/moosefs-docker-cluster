@@ -10,7 +10,8 @@ RUN echo "deb http://ppa.moosefs.com/3.0.115/apt/debian/buster buster main" > /e
 # Install MooseFS client and cli
 RUN apt-get update && apt-get install -y moosefs-client moosefs-cli
 
-# Make a moosefs mountpoint
-RUN mkdir -p /mnt/moosefs
+# Add start script
+ADD mount.sh /usr/sbin/mount.sh
+RUN chown root:root /usr/sbin/mount.sh ; chmod 700 /usr/sbin/mount.sh ; mkdir -p /mnt/moosefs
 
-CMD ["mfsmount", "-f", "/mnt/moosefs"]
+CMD ["mount.sh"]

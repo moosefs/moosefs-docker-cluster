@@ -6,6 +6,15 @@ MFS_ENV="${MFS_ENV:-PROD}"
 #Set correct owner
 chown -R mfs:mfs /var/lib/mfs
 
+# Overwrite mfsmaster.cfg if passed in
+# this will base64 decode MFS_MASTER_CONFIG variable text
+# substitute any env variables in decoded text
+# save text into /etc/mfs/mfsmaster.cfg
+if [ ! -z ${MFS_MASTER_CONFIG+X} ];
+    then
+        echo $MFS_MASTER_CONFIG | base64 -d | envsubst > /etc/mfs/mfsmaster.cfg
+fi
+
 # We have to be sure that we have metadata files
 if [ -f /var/lib/mfs/metadata.mfs ];
 then
