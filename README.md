@@ -143,7 +143,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: moosefs-master
-        image: rocinantesystems/moosefs-master:latest
+        image: moosefs/master:latest
         resources:
           requests:
             cpu: 100m
@@ -227,7 +227,7 @@ spec:
           value: TUFTVEVSX0hPU1QgPSAkTU9PU0VGU19NQVNURVJfU0VSVklDRV9IT1NUCkNTU0VSVl9MSVNURU5fUE9SVCA9ICRNT09TRUZTX0NIVU5LU0VSVkVSX1NFUlZJQ0VfUE9SVApEQVRBX1BBVEggPSAvbW50L2hkZDAvbWZzCg==
         - name: SIZE
           value: 16
-        image: rocinantesystems/moosefs-chunkserver:latest
+        image: moosefs/chunkserver:latest
         ports:
         - containerPort: 9422
         volumeMounts:
@@ -259,8 +259,8 @@ Repeat this for other chunk servers modifying your base64 string accordingly. If
 
 | Image name | Image size | Pulls | Stars | Build |
 |:-----|:-----|:-----|:-----|:-----|
-| [moosefs/master](https://hub.docker.com/r/moosefs/master/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/master?sort=date) | [![master](https://img.shields.io/docker/pulls/moosefs/master)](https://hub.docker.com/r/moosefs/master/) | ![master](https://img.shields.io/docker/stars/moosefs/master) | ![master](https://img.shields.io/docker/build/moosefs/master) |
-| [moosefs/chunkserver](https://hub.docker.com/r/moosefs/chunkserver/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/chunkserver?sort=date) | [![chunkserver](https://img.shields.io/docker/pulls/moosefs/chunkserver)](https://hub.docker.com/r/moosefs/chunkserver/) | ![chunkserver](https://img.shields.io/docker/stars/moosefs/chunkserver) | ![chunkserver](https://img.shields.io/docker/build/moosefs/chunkserver) |
-| [moosefs/client](https://hub.docker.com/r/moosefs/client/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/client?sort=date) | [![client](https://img.shields.io/docker/pulls/moosefs/client)](https://hub.docker.com/r/moosefs/client/) | ![client](https://img.shields.io/docker/stars/moosefs/client) | ![client](https://img.shields.io/docker/build/moosefs/client) |
-| [moosefs/metalogger](https://hub.docker.com/r/moosefs/metalogger/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/metalogger?sort=date) | [![metalogger](https://img.shields.io/docker/pulls/moosefs/metalogger)](https://hub.docker.com/r/moosefs/cgi/)    | ![metalogger](https://img.shields.io/docker/stars/moosefs/metalogger)  | ![metalogger](https://img.shields.io/docker/build/moosefs/metalogger) |
-| [moosefs/cgi](https://hub.docker.com/r/moosefs/cgi/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/cgi?sort=date) | [![cgi](https://img.shields.io/docker/pulls/moosefs/cgi)](https://hub.docker.com/r/moosefs/cgi/) | ![cgi](https://img.shields.io/docker/stars/moosefs/cgi)  | ![cgi](https://img.shields.io/docker/build/moosefs/cgi) |
+| [moosefs/master](https://hub.docker.com/r/moosefs/master/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/master?sort=date) | [![master](https://img.shields.io/docker/pulls/moosefs/master)](https://hub.docker.com/r/moosefs/master/) | ![master](https://img.shields.io/docker/stars/moosefs/master) | ![master](https://img.shields.io/docker/cloud/build/moosefs/master) |
+| [moosefs/chunkserver](https://hub.docker.com/r/moosefs/chunkserver/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/chunkserver?sort=date) | [![chunkserver](https://img.shields.io/docker/pulls/moosefs/chunkserver)](https://hub.docker.com/r/moosefs/chunkserver/) | ![chunkserver](https://img.shields.io/docker/stars/moosefs/chunkserver) | ![chunkserver](https://img.shields.io/docker/cloud/build/moosefs/chunkserver) |
+| [moosefs/client](https://hub.docker.com/r/moosefs/client/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/client?sort=date) | [![client](https://img.shields.io/docker/pulls/moosefs/client)](https://hub.docker.com/r/moosefs/client/) | ![client](https://img.shields.io/docker/stars/moosefs/client) | ![client](https://img.shields.io/docker/cloud/build/moosefs/client) |
+| [moosefs/metalogger](https://hub.docker.com/r/moosefs/metalogger/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/metalogger?sort=date) | [![metalogger](https://img.shields.io/docker/pulls/moosefs/metalogger)](https://hub.docker.com/r/moosefs/cgi/)    | ![metalogger](https://img.shields.io/docker/stars/moosefs/metalogger)  | ![metalogger](https://img.shields.io/docker/cloud/build/moosefs/metalogger) |
+| [moosefs/cgi](https://hub.docker.com/r/moosefs/cgi/) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/moosefs/cgi?sort=date) | [![cgi](https://img.shields.io/docker/pulls/moosefs/cgi)](https://hub.docker.com/r/moosefs/cgi/) | ![cgi](https://img.shields.io/docker/stars/moosefs/cgi)  | ![cgi](https://img.shields.io/docker/cloud/build/moosefs/cgi) |
