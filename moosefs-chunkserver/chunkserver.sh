@@ -20,15 +20,14 @@ fi
 if [ ! -z ${MFS_HDD_CONFIG+X} ];
     then
         echo $MFS_HDD_CONFIG | base64 -d | envsubst > /etc/mfs/mfshdd.cfg
-fi
-
-
-#Add size to hdd if defined
-if [ -z ${SIZE+X} ];
-    then
-        echo "/mnt/hdd0" > /etc/mfs/mfshdd.cfg
-    else
-        echo "/mnt/hdd0 ${SIZE}GiB" > /etc/mfs/mfshdd.cfg
+else
+  #Add size to hdd if defined
+  if [ -z ${SIZE+X} ];
+      then
+          echo "/mnt/hdd0" > /etc/mfs/mfshdd.cfg
+      else
+          echo "/mnt/hdd0 ${SIZE}GiB" > /etc/mfs/mfshdd.cfg
+  fi
 fi
 
 # Add label if defined
