@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-mkdir -p /mnt/hdd0/mfs
+mkdir -p /mnt/hdd0
 # Set correct owner
-chown -R mfs:mfs /mnt/hdd0 /mnt/hdd0/mfs /var/lib/mfs
+chown -R mfs:mfs /mnt/hdd0 /var/lib/mfs
 
 # Overwrite mfschunkserver.cfg if passed in
 # this will base64 decode MFS_CHUNKSERVER_CONFIG variable text
@@ -24,9 +24,9 @@ else
   #Add size to hdd if defined
   if [ -z ${SIZE+X} ];
       then
-          echo "/mnt/hdd0" > /etc/mfs/mfshdd.cfg
+          echo "/mnt/hdd0 =" > /etc/mfs/mfshdd.cfg
       else
-          echo "/mnt/hdd0 ${SIZE}GiB" > /etc/mfs/mfshdd.cfg
+          echo "/mnt/hdd0 =${SIZE}GiB" > /etc/mfs/mfshdd.cfg
   fi
 fi
 

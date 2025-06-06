@@ -1,20 +1,29 @@
-FROM debian:buster
+ARG MFS_TAG="v4.57.6"
 
-# Install wget and gnupg2
-RUN apt-get update && apt-get install -y wget gnupg2 python3
+# Build MooseFS chunkserver from source on Debian 12 Bookworm container
+# mfsbuilder image is based on Debian 12
+FROM ghcr.io/moosefs/mfsbuilder:latest AS mfsbuilder
+WORKDIR /moosefs
+ARG MFS_TAG
+RUN git clone --depth 1 --branch ${MFS_TAG} https://github.com/moosefs/moosefs.git /moosefs
+RUN autoreconf -f -i
+RUN ./configure --prefix=/usr --mandir=/share/man --sysconfdir=/etc --localstatedir=/var/lib --with-default-user=mfs --with-default-group=mfs --disable-mfsbdev --disable-mfsmount --disable-mfsmaster --disable-mfsmetalogger --disable-mfsnetdump --disable-mfschunkserver 
+RUN make DESTDIR=/tmp/mfs install
 
-# Add key
-RUN wget -O - http://ppa.moosefs.com/moosefs.key 2>/dev/null | apt-key add - 2>/dev/null
-RUN echo "deb http://ppa.moosefs.com/3.0.117/apt/debian/buster buster main" > /etc/apt/sources.list.d/moosefs.list
+#Build moosefs-cgi container
+FROM python:3.13-bookworm
+COPY --from=mfsbuilder /tmp/mfs/usr /usr
+COPY --from=mfsbuilder /tmp/mfs/var /var
 
-# Install MooseFS master
-RUN apt-get update && apt-get install -y moosefs-cgi moosefs-cgiserv moosefs-cli
-
-# Expose ports master ports
+# Expose GUI port
 EXPOSE 9425
 
-# Add start script
+# Container preparation
 ADD cgiserver.sh /usr/sbin/cgiserver.sh
-RUN chown root:root /usr/sbin/cgiserver.sh ; chmod 700 /usr/sbin/cgiserver.sh
+RUN set -eux; \
+        useradd -r -d /var/lib/mfs -s /usr/sbin/nologin mfs; \
+        chown -R mfs:mfs /usr/share/mfscgi; \
+        chown root:root /usr/sbin/cgiserver.sh; \
+        chmod 700 /usr/sbin/cgiserver.sh
 
 CMD ["cgiserver.sh"]

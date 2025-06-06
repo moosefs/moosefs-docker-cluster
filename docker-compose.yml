@@ -1,4 +1,3 @@
-version: '3'
 services:
   mfsmaster:
     build: ./moosefs-master
@@ -6,6 +5,10 @@ services:
     networks:
       moosefsnet:
         ipv4_address: "172.20.0.2"
+    ports:
+      - "9419:9419"
+      - "9420:9420"
+      - "9421:9421"
     volumes:
             - ./data/master/meta:/var/lib/mfs
     hostname: mfsmaster
@@ -109,9 +112,9 @@ services:
     depends_on:
       - mfsmaster
 
-  mfsclient:
+  mfsclient1:
     build: ./moosefs-client
-    container_name: "mfsclient"
+    container_name: "mfsclient1"
     cap_add:
       - SYS_ADMIN
     devices:
@@ -124,7 +127,29 @@ services:
       - mfsmaster
     networks:
       moosefsnet:
-        ipv4_address: "172.20.0.100"
+        ipv4_address: "172.20.0.101"
+    depends_on:
+      - mfsmaster
+      - mfschunkserver1
+      - mfschunkserver2
+      - mfschunkserver3
+      - mfschunkserver4
+  mfsclient2:
+    build: ./moosefs-client
+    container_name: "mfsclient2"
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse:/dev/fuse
+    security_opt:
+      - apparmor:unconfined
+    stdin_open: true
+    tty: true
+    links:
+      - mfsmaster
+    networks:
+      moosefsnet:
+        ipv4_address: "172.20.0.102"
     depends_on:
       - mfsmaster
       - mfschunkserver1

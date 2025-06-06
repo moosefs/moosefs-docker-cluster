@@ -8,7 +8,7 @@ if [ ! -z ${MASTER_HOST+X} ];
         CMD="$CMD -H $MASTER_HOST"
 fi
 
-#Add host if set
+#Add port if set
 if [ ! -z ${MASTER_PORT+X} ];
     then
         CMD="$CMD -P $MASTER_PORT"

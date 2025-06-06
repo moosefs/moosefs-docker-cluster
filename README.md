@@ -4,6 +4,8 @@ This is a basic configuration of a multiple-node MooseFS cluster based on the De
 
 # Updates
 
+- Update cluster to version 4.57.6
+- The use of the MooseFS repository in containers has been discontinued. Binary files are compiled from source. This approach will make it easier to run the cluster on different CPU architectures.
 - All MooseFS processes are now correctly handling signals.
 - Metadata and data are now persistent and mounted as volumes.
 - TEST and PROD moosefs master metadata behavior defined by `MFS_ENV` variable.
@@ -23,13 +25,14 @@ This is a basic configuration of a multiple-node MooseFS cluster based on the De
 - Chunkserver 2: `172.20.0.12`, labels: `M, B`
 - Chunkserver 3: `172.20.0.13`, labels: `M, B`
 - Chunkserver 4: `172.20.0.14`, labels: `B`
-- Client: `172.168.20.0.100`
+- Client1: `172.168.20.0.101`
+- Client2: `172.168.20.0.102`
 
 # Setup
 
-Install Docker with Docker Composer from [https://docs.docker.com/compose/install](https://docs.docker.com/compose/install)
+> Docker Compose is required!
 
-Clone MooseFS docker config files:
+Clone MooseFS docker cluster repository:
 
 ```
 git clone https://github.com/moosefs/moosefs-docker-cluster
@@ -39,22 +42,14 @@ cd moosefs-docker-cluster
 Build and run:
 
 ```
-docker-compose build
-docker-compose up
+docker compose build
+docker compose up
 ```
 
-On Linux OS run `docker-compose` as root:
+You can also run `docker compose` in detached mode. All running Docker nodes will run in the background, so Docker console output will be invisible.
 
 ```
-sudo -E docker-compose build
-sudo -E docker-compose up
-```
-
-You can also run `docker-compose` in detached mode. All running Docker nodes will run in the background, so Docker console output will be invisible.
-
-```
-sudo -E docker-compose build
-sudo -E docker-compose up -d
+docker compose up -d
 ```
 
 You can check if instances are running:
@@ -63,18 +58,19 @@ You can check if instances are running:
 docker ps
 ```
 
-You should have 1 Master Server, 1 Metalogger, 4 Chunkservers and 1 Client running (first configuration). The expected output should be similar to the following:
+You should have 1 Master Server, 1 Metalogger, 4 Chunkservers and 2 Clients running. The expected output should be similar to the following:
 
 ```
-CONTAINER ID        IMAGE                                  COMMAND                  CREATED             STATUS              PORTS                    NAMES
-abf5910b53bc        moosefsdockercluster_mfsclient         "mfsmount -f /mnt/mo…"   7 minutes ago       Up 7 minutes                                 mfsclient
-7a1152cc31f3        moosefsdockercluster_mfschunkserver3   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver3
-b8c2cd770187        moosefsdockercluster_mfschunkserver2   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver2
-100f20683b3a        moosefsdockercluster_mfschunkserver1   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver1
-68ffb70ab361        moosefsdockercluster_mfschunkserver4   "chunkserver.sh"         7 minutes ago       Up 7 minutes        9422/tcp                 mfschunkserver4
-82a2c3bd831d        moosefsdockercluster_mfsmetalogger     "metalogger.sh"          7 minutes ago       Up 7 minutes                                 mfsmetalogger
-05736e4bdd3c        moosefsdockercluster_mfscgi            "mfscgiserv -f"          7 minutes ago       Up 7 minutes        0.0.0.0:9425->9425/tcp   mfscgi
-e83a1fb062a1        moosefsdockercluster_mfsmaster         "master.sh"              7 minutes ago       Up 7 minutes        9419-9421/tcp            mfsmaster
+CONTAINER ID   IMAGE                                    COMMAND                  CREATED         STATUS         PORTS                              NAMES
+f104d5b2f737   moosefs-docker-cluster-mfsclient2        "mount.sh"               3 minutes ago   Up 3 seconds                                      mfsclient2
+74de405a4baa   moosefs-docker-cluster-mfsclient1        "mount.sh"               3 minutes ago   Up 3 seconds                                      mfsclient1
+4d8637367bbd   moosefs-docker-cluster-mfschunkserver3   "chunkserver.sh"         3 minutes ago   Up 3 seconds   9422/tcp                           mfschunkserver3
+8bbe27c0a913   moosefs-docker-cluster-mfschunkserver4   "chunkserver.sh"         3 minutes ago   Up 3 seconds   9422/tcp                           mfschunkserver4
+bdceb9669fae   moosefs-docker-cluster-mfschunkserver2   "chunkserver.sh"         3 minutes ago   Up 3 seconds   9422/tcp                           mfschunkserver2
+15de9aef85ec   moosefs-docker-cluster-mfschunkserver1   "chunkserver.sh"         3 minutes ago   Up 3 seconds   9422/tcp                           mfschunkserver1
+11465da54cb9   moosefs-docker-cluster-mfsmetalogger     "metalogger.sh"          3 minutes ago   Up 3 seconds                                      mfsmetalogger
+3f7c572225c4   moosefs-docker-cluster-mfscgi            "cgiserver.sh"           3 minutes ago   Up 3 seconds   0.0.0.0:9425->9425/tcp             mfscgi
+afd43c5c460f   moosefs-docker-cluster-mfsmaster         "master.sh"              3 minutes ago   Up 4 seconds   0.0.0.0:9419-9421->9419-9421/tcp   mfsmaster
 ```
 
 # Attach / detach to / from container
@@ -82,7 +78,7 @@ e83a1fb062a1        moosefsdockercluster_mfsmaster         "master.sh"          
 For example, if you like to **attach** to the client node execute this command:
 
 ```
-docker exec -it mfsclient bash
+docker exec -it mfsclient1 bash
 ```
 
 To **detach** from container, just press `Ctrl + D` keys combination.
@@ -110,7 +106,13 @@ The MooseFS CGI Monitoring Interface is available here: [http://localhost:9425](
 
 Also on Linux, CGI Server container is available at the IP address: [http://172.20.0.3:9425](http://172.20.0.3:9425) (be aware of a local `172.20.0.x` network).
 
-![MooseFS CGI](https://github.com/moosefs/moosefs-docker-cluster/raw/master/images/cgi.png)
+![MooseFS GUI status - dark](https://github.com/moosefs/moosefs-docker-cluster/raw/master/images/gui1.png)
+
+![MooseFS GUI status - light](https://github.com/moosefs/moosefs-docker-cluster/raw/master/images/gui2.png)
+
+![MooseFS GUI resources - dark](https://github.com/moosefs/moosefs-docker-cluster/raw/master/images/gui3.png)
+
+![MooseFS GUI resources - light](https://github.com/moosefs/moosefs-docker-cluster/raw/master/images/gui4.png)
 
 # Persistence
 
