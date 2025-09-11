@@ -1,8 +1,8 @@
-ARG MFS_TAG="v4.57.6"
+# Build MooseFS master server from source on Debian Trixie (13) container
 
-# Build MooseFS master binaries from source
-# MFSbuilder image is based on Debian 12
-FROM ghcr.io/moosefs/mfsbuilder:latest AS mfsbuilder
+ARG MFS_TAG="v4.57.7"
+
+FROM moosefs/mfsbuilder:trixie AS mfsbuilder
 WORKDIR /moosefs
 ARG MFS_TAG
 RUN git clone --depth 1 --branch ${MFS_TAG} https://github.com/moosefs/moosefs.git /moosefs
@@ -11,12 +11,11 @@ RUN set -eux; \
     ./configure --prefix=/usr --mandir=/share/man --sysconfdir=/etc \
     --localstatedir=/var/lib --with-default-user=mfs --with-default-group=mfs \
     --disable-mfsbdev --disable-mfsmount --disable-mfschunkserver \
-    --disable-mfsmetalogger --disable-mfsnetdump --disable-mfscgi \
-    --disable-mfscgiserv --disable-mfscli; \
+    --disable-mfsmetalogger --disable-mfsnetdump --disable-mfsgui --disable-mfscli; \
     make DESTDIR=/tmp/mfs install
 
 #Build moosefs-master container
-FROM debian:bookworm
+FROM debian:trixie
 COPY --from=mfsbuilder /tmp/mfs/etc /etc
 COPY --from=mfsbuilder /tmp/mfs/usr /usr
 COPY --from=mfsbuilder /tmp/mfs/var /var
@@ -27,9 +26,9 @@ EXPOSE 9419 9420 9421
 # Container preparation
 ADD master.sh /usr/sbin/master.sh
 RUN set -eux; \
-        useradd -r -d /var/lib/mfs -s /usr/sbin/nologin mfs; \
-        cp /etc/mfs/mfsexports.cfg.sample /etc/mfs/mfsexports.cfg; \
-        chown root:root /usr/sbin/master.sh; \
-        chmod 700 /usr/sbin/master.sh
+    useradd -r -d /var/lib/mfs -s /usr/sbin/nologin mfs; \
+    cp /etc/mfs/mfsexports.cfg.sample /etc/mfs/mfsexports.cfg; \
+    chown root:root /usr/sbin/master.sh; \
+    chmod 700 /usr/sbin/master.sh
 
 CMD ["master.sh"]

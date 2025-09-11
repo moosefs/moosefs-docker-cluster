@@ -1,10 +1,12 @@
 # MooseFS Docker Cluster
 
-This is a basic configuration of a multiple-node MooseFS cluster based on the Debian Buster Docker image. It consists of a Master Server, a CGI Monitoring Interface Server, 4 Chunkservers, and one Client. After a successful installation, you will have a fully working MooseFS cluster to play with its amazing features.
+This is an example configuration of a multi-node MooseFS cluster based on the Debian 13 (Trixie) Docker image. The system includes a master server, a GUI monitoring server, four chunk servers and two clients. Once successfully deployed, you will have a fully functional MooseFS cluster that you can take full advantage of, discovering its amazing features.
 
 # Updates
 
-- Update cluster to version 4.57.6
+- Use version 4.57.7 of MooseFS.
+- Added moosefs-gui container. MooseFS version 4.57.7 introduced new mfsgui server application. Mfscgi and mfscgiserv packages are no longer available.
+- New mfsgui application allows prometheus metrics to be collected. For example: [http://localhost:9425/metrics](http://localhost:9425/metrics)
 - The use of the MooseFS repository in containers has been discontinued. Binary files are compiled from source. This approach will make it easier to run the cluster on different CPU architectures.
 - All MooseFS processes are now correctly handling signals.
 - Metadata and data are now persistent and mounted as volumes.
@@ -19,7 +21,7 @@ This is a basic configuration of a multiple-node MooseFS cluster based on the De
 **File docker-compose.yml**
 
 - Master Server: `172.20.0.2`
-- CGI Monitoring Interface: [http://localhost:9425](http://localhost:9425), on Linux also [http://172.20.0.3:9425](http://172.20.0.3:9425)
+- GUI Monitoring Interface: [http://localhost:9425](http://localhost:9425), on Linux also [http://172.20.0.3:9425](http://172.20.0.3:9425)
 - Metalogger: `172.20.0.4`
 - Chunkserver 1: `172.20.0.11`, labels: `M`
 - Chunkserver 2: `172.20.0.12`, labels: `M, B`
@@ -30,7 +32,7 @@ This is a basic configuration of a multiple-node MooseFS cluster based on the De
 
 # Setup
 
-> Docker Compose is required!
+> Docker compose plugin is required!
 
 Clone MooseFS docker cluster repository:
 
@@ -39,27 +41,22 @@ git clone https://github.com/moosefs/moosefs-docker-cluster
 cd moosefs-docker-cluster
 ```
 
-Build and run:
-
+Run MooseFS cluster:
 ```
-docker compose build
 docker compose up
 ```
 
 You can also run `docker compose` in detached mode. All running Docker nodes will run in the background, so Docker console output will be invisible.
-
 ```
 docker compose up -d
 ```
 
 You can check if instances are running:
-
 ```
 docker ps
 ```
 
 You should have 1 Master Server, 1 Metalogger, 4 Chunkservers and 2 Clients running. The expected output should be similar to the following:
-
 ```
 CONTAINER ID   IMAGE                                    COMMAND                  CREATED         STATUS         PORTS                              NAMES
 f104d5b2f737   moosefs-docker-cluster-mfsclient2        "mount.sh"               3 minutes ago   Up 3 seconds                                      mfsclient2
@@ -69,14 +66,13 @@ f104d5b2f737   moosefs-docker-cluster-mfsclient2        "mount.sh"              
 bdceb9669fae   moosefs-docker-cluster-mfschunkserver2   "chunkserver.sh"         3 minutes ago   Up 3 seconds   9422/tcp                           mfschunkserver2
 15de9aef85ec   moosefs-docker-cluster-mfschunkserver1   "chunkserver.sh"         3 minutes ago   Up 3 seconds   9422/tcp                           mfschunkserver1
 11465da54cb9   moosefs-docker-cluster-mfsmetalogger     "metalogger.sh"          3 minutes ago   Up 3 seconds                                      mfsmetalogger
-3f7c572225c4   moosefs-docker-cluster-mfscgi            "cgiserver.sh"           3 minutes ago   Up 3 seconds   0.0.0.0:9425->9425/tcp             mfscgi
+3f7c572225c4   moosefs-docker-cluster-mfsgui            "gui.sh"                 3 minutes ago   Up 3 seconds   0.0.0.0:9425->9425/tcp             mfsgui
 afd43c5c460f   moosefs-docker-cluster-mfsmaster         "master.sh"              3 minutes ago   Up 4 seconds   0.0.0.0:9419-9421->9419-9421/tcp   mfsmaster
 ```
 
 # Attach / detach to / from container
 
 For example, if you like to **attach** to the client node execute this command:
-
 ```
 docker exec -it mfsclient1 bash
 ```
@@ -86,7 +82,6 @@ To **detach** from container, just press `Ctrl + D` keys combination.
 # MooseFS Client
 
 MooseFS filesystem is mounted at `/mnt/moosefs`. If everything is ok you should see this ASCII art:
-
 ```
 cat /mnt/moosefs/.mooseart
  \_\            /_/
