@@ -5,7 +5,7 @@ on:
     branches: ["master"]
 
 env:
-  MOOSEFS_VERSION: 4.57.7
+  MOOSEFS_VERSION: 4.58.0
 
 jobs:
   build-and-push:
@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./service/${{ matrix.service }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: |
             moosefs/${{ matrix.service }}:${{ env.MOOSEFS_VERSION }}
