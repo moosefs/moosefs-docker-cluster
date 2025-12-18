@@ -4,7 +4,7 @@ This is an example configuration of a multi-node MooseFS cluster based on the De
 
 # Updates
 
-- Use version 4.58.1 of MooseFS.
+- Use version 4.58.3 of MooseFS.
 - Added moosefs-gui container. MooseFS version 4.57.7 introduced new mfsgui server application. Mfscgi and mfscgiserv packages are no longer available.
 - New mfsgui application allows prometheus metrics to be collected. For example: [http://localhost:9425/metrics](http://localhost:9425/metrics)
 - The use of the MooseFS repository in containers has been discontinued. Binary files are compiled from source. This approach will make it easier to run the cluster on different CPU architectures.

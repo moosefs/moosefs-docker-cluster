@@ -1,6 +1,6 @@
 # Build MooseFS master server from source on Debian Trixie (13) container
 
-ARG MFS_TAG="v4.58.1"
+ARG MFS_TAG="v4.58.3"
 
 FROM moosefs/mfsbuilder:trixie AS mfsbuilder
 WORKDIR /moosefs
