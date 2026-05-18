@@ -1,6 +1,6 @@
 # Build MooseFS chunnkserver from source on Debian Trixie (13) container
 
-ARG MFS_TAG="v4.58.4"
+ARG MFS_TAG="v4.59.2"
 
 FROM moosefs/mfsbuilder:trixie AS mfsbuilder
 WORKDIR /moosefs
